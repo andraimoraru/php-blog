@@ -28,6 +28,21 @@ class Users extends Controller {
    
     }
     public function login() {
+                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Process form
+        } else {
+            // Init data
+            $data = [
+                'email' => '',
+                'password' => '',
+                'confirm_password' => '',
+                'email_err' => '',
+                'password_err' => '',
+                'confirm_password_err' => ''    
+            ];
+            // Load view
+            $this->view('users/login', $data);
+        }
     }
 
 }
