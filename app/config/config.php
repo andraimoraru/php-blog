@@ -6,11 +6,11 @@ define('DB_USER', 'root');
 //DB Password
 define('DB_PASS', '');
 //DB Name
-define('DB_NAME', 'mvc');
+define('DB_NAME', 'blog');
 
 // App Root
 define('APPROOT', dirname(dirname(__FILE__)));
 // URL Root
-define('URLROOT', 'http://localhost/MVC');
+define('URLROOT', 'http://localhost/blog');
 // Site Name
-define('SITENAME', 'PHP MVC Framework');
+define('SITENAME', 'Blog posts');
