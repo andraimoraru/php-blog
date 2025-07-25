@@ -1,10 +1,13 @@
 <?php
 class Users extends Controller {
-  public function __construct() {
+  private $userModel;
 
+  public function __construct() {
+    $this->userModel = $this->model('User');
   }
 
   public function register() {
+
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       // Sanitize input
       $post = filter_input_array(INPUT_POST, [
@@ -30,6 +33,7 @@ class Users extends Controller {
       ];
 
       // ====== VALIDATION ======
+
       // Name
       if (empty($data['name'])) {
         $data['name_err'] = 'Please enter your name';
@@ -40,6 +44,8 @@ class Users extends Controller {
         $data['email_err'] = 'Please enter your email';
       } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
         $data['email_err'] = 'Please enter a valid email';
+      } elseif ($this->userModel->findUserByEmail($data['email'])) {
+        $data['email_err'] = 'Email is already taken';
       }
 
       // Password
@@ -89,53 +95,53 @@ class Users extends Controller {
 
 
   public function login() {
-      if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-      // Sanitize input
-      $post = filter_input_array(INPUT_POST, [
-        'email' => FILTER_VALIDATE_EMAIL,
-        'password' => FILTER_DEFAULT
-      ]);
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Sanitize input
+        $post = filter_input_array(INPUT_POST, [
+            'email' => FILTER_VALIDATE_EMAIL,
+            'password' => FILTER_DEFAULT
+        ]);
 
-      // Fallback if input fails
-      $post = $post ?? [];
+        // Fallback if input fails
+        $post = $post ?? [];
 
-      // Init data
-      $data = [
-        'email' => trim($post['email'] ?? ''),
-        'password' => trim($post['password'] ?? ''),
-        'email_err' => '',
-        'password_err' => '',
-      ];
+        // Init data
+        $data = [
+            'email' => trim($post['email'] ?? ''),
+            'password' => trim($post['password'] ?? ''),
+            'email_err' => '',
+            'password_err' => '',
+        ];
 
-      // ====== VALIDATION ======
+        // ====== VALIDATION ======
 
-      // Email
-      if (empty($data['email'])) {
-        $data['email_err'] = 'Please enter your email';
-      }
+        // Email
+        if (empty($data['email'])) {
+            $data['email_err'] = 'Please enter your email';
+        }
 
-      // Password
-      if (empty($data['password'])) {
-        $data['password_err'] = 'Please enter your password';
-      }
+        // Password
+        if (empty($data['password'])) {
+            $data['password_err'] = 'Please enter your password';
+        }
 
-      if (
-        empty($data['email_err']) &&
-        empty($data['password_err'])
-      ) {
-        // Register the user (TODO: add model call)
-        die('Success!'); // Placeholder
-      } else {
-        $this->view('users/login', $data);
-      }
+        if (
+            empty($data['email_err']) &&
+            empty($data['password_err'])
+        ) {
+            // Register the user (TODO: add model call)
+            die('Success!'); // Placeholder
+        } else {
+            $this->view('users/login', $data);
+        }
     } else {
-      $data = [
-        'email' => '',
-        'password' => '',
-        'email_err' => '',
-        'password_err' => ''
-      ];
-      $this->view('users/login', $data);
+        $data = [
+            'email' => '',
+            'password' => '',
+            'email_err' => '',
+            'password_err' => ''
+        ];
+        $this->view('users/login', $data);
     }
   }
 }
