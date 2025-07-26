@@ -9,6 +9,10 @@
         }
         public function index() {
 
+            if (isLoggedIn()) {
+                redirect('posts');
+            }
+
             $data = [
                 'title' => 'Blog posts',
                 'description' => 'This is a simple blog application built with PHP MVC framework.'
