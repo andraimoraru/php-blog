@@ -21,6 +21,9 @@
 
      public function add() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            // Sanitize POST data
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
             // Process form
             $data = [
                 'title' => trim($_POST['title']),
