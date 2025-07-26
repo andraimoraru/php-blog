@@ -177,7 +177,7 @@ class Users extends Controller {
     $_SESSION['user_id'] = $user->id;
     $_SESSION['user_email'] = $user->email;
     $_SESSION['user_name'] = $user->name;
-    redirect('pages/index'); // Redirect to home or dashboard
+    redirect('posts'); // Redirect to home or dashboard
   }
 
   public function logout() {
@@ -192,8 +192,4 @@ class Users extends Controller {
     // Redirect to login page
     redirect('users/login');
   }
-
-    public function isLoggedIn() {
-        return isset($_SESSION['user_id']);
-    }
 }
