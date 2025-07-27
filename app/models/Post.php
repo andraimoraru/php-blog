@@ -39,20 +39,35 @@ class Post {
     }
     // Get post by ID
     public function getPostById($id) {
-        $this->db->query('SELECT * , 
-                        users.name AS name,
-                        posts.id AS postId,
-                        users.id AS userId,
-                        posts.body AS body,
-                        posts.title AS title,
-                        posts.created_at AS postCreatedAt                      
+        $this->db->query('SELECT *                 
                         FROM posts
-                        JOIN users 
-                        ON posts.user_id = users.id 
                         WHERE posts.id = :id');
         // Bind value
         $this->db->bind(':id', $id);
         $row = $this->db->single();
         return $row;    
     }
+
+    // Update post
+    public function updatePost($data) {
+
+        $this->db->query('UPDATE posts 
+                        SET title = :title, body = :body
+                        WHERE id = :id');
+        // Bind values
+        $this->db->bind(':id', $data['id']);
+        $this->db->bind(':title', $data['title']);
+        $this->db->bind(':body', $data['body']);
+
+
+        // Execute
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
 }
+   
