@@ -64,4 +64,16 @@
             $this->view('posts/add', $data);
         }
      }
+
+        public function show($id) {
+            $post = $this->postModel->getPostById($id);
+            if ($post) {
+                $data = [
+                    'post' => $post
+                ];
+                $this->view('posts/show', $data);
+            } else {
+                redirect('posts');
+            }
+        }
  }
